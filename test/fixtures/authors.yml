@@ -1,0 +1,15 @@
+john:
+  full_name: John Doe
+  birth_date: 01.01.1980
+
+nick:
+  full_name: Nick Warren 
+  birth_date: 01.02.1981
+
+loren:
+  full_name: Loren Straight 
+  birth_date: 01.03.1982
+
+paul:
+  full_name: Paul Smith 
+  birth_date: 01.05.1988
