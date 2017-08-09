@@ -12,11 +12,13 @@ class PostsControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
+    sign_in users(:user_paul)
     get :new
     assert_response :success
   end
 
   test "should create post" do
+    sign_in users(:user_paul)
     assert_difference('Post.count') do
       post :create, post: { author_id: @post.author_id, content: @post.content, title: @post.title }
     end
@@ -30,16 +32,19 @@ class PostsControllerTest < ActionController::TestCase
   end
 
   test "should get edit" do
+    sign_in users(:user_paul)
     get :edit, id: @post
     assert_response :success
   end
 
   test "should update post" do
+    sign_in users(:user_paul)
     patch :update, id: @post, post: { author_id: @post.author_id, content: @post.content, title: @post.title }
     assert_redirected_to post_path(assigns(:post))
   end
 
   test "should destroy post" do
+    sign_in users(:user_paul)
     assert_difference('Post.count', -1) do
       delete :destroy, id: @post
     end

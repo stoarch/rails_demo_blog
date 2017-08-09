@@ -1,10 +1,12 @@
 require 'test_helper'
 
 class PostFlowsTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
   fixtures :posts
 
   test 'create posts' do
     https!
+    sign_in users(:user_paul)
     post_one = posts(:post_one)
     get '/posts/new'
     assert_response :success
@@ -17,13 +19,4 @@ class PostFlowsTest < ActionDispatch::IntegrationTest
     assert assigns(:posts)
   end
 
-  test 'posts in inverse date order' do
-    get '/posts'
-    assert_response :success
-
-    a_posts = assigns(:posts)
-    a_posts.to_a.each_cons(2) do |a,b|
-      assert a.created_at > b.created_at, "#{b.id}:#{b.created_at} is earlier than #{a.id}:#{a.created_at}"
-    end
-  end
 end
