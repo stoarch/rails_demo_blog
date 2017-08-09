@@ -1,6 +1,10 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <b>Created at:</b>
+  <%= @post.created_at.strftime("%d-%m-%Y %H:%M") %>
+
+<p>
   <strong>Title:</strong>
   <%= @post.title %>
 </p>
@@ -12,7 +16,7 @@
 
 <p>
   <strong>Author:</strong>
-  <%= @post.author_id %>
+  <%= @post.author.full_name if @post.author%>
 </p>
 
 <%= link_to 'Edit', edit_post_path(@post) %> |

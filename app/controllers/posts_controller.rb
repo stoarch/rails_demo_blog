@@ -1,10 +1,12 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
+  MAX_CONTENT_LENGTH = 300 
+
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.order( created_at: :desc ).all
+    @posts = Post.select("id, title, author_id, left(content,#{MAX_CONTENT_LENGTH}) as content, created_at").order( created_at: :desc ).all
   end
 
   # GET /posts/1

@@ -14,3 +14,12 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+//
+$(function(){           
+  if (!Modernizr.inputtypes.date) {
+    $('input[type=date]').datepicker({
+      dateFormat : 'yy-mm-dd'
+      }
+    );
+  }
+});

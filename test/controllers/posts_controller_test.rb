@@ -46,4 +46,26 @@ class PostsControllerTest < ActionController::TestCase
 
     assert_redirected_to posts_path
   end
+
+  test 'posts in inverse date order' do
+    get :index
+    assert_response :success
+
+    a_posts = assigns(:posts)
+    a_posts.to_a.each_cons(2) do |a,b|
+      assert a.created_at > b.created_at, "#{b.id}:#{b.created_at} is earlier than #{a.id}:#{a.created_at}"
+    end
+  end
+
+  MAX_POST_LENGTH = 300 
+
+  test "post content is no longer than #{MAX_POST_LENGTH}" do
+    get :index
+    assert_response :success
+
+    a_posts = assigns(:posts)
+    a_posts.each do |p|
+      assert_operator p.content.length, :<=, MAX_POST_LENGTH, "#{p.id} content too long"
+    end
+  end
 end
