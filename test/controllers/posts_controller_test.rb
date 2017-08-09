@@ -85,7 +85,7 @@ class PostsControllerTest < ActionController::TestCase
 
     assert_response :forbidden
     assert_not_nil flash[:alert], 'Should not access to other author resources'
-    assert_equal "Access denied for #{authors(:paul).full_name} to resources from #{fix_author.full_name}", flash[:alert], 'Alert does not display valid info'
+    assert_equal 'Access denied to resources from another author', flash[:alert], 'Alert does not display valid info'
   end
 
   test 'post filtered by author' do
