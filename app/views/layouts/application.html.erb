@@ -7,6 +7,9 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+
   <ul class="nav navbar-nav pull-right">
     <% if user_signed_in? %>
       <li><%= link_to "#{current_user.email}" %></li>
