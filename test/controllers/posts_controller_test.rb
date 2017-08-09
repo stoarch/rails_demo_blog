@@ -69,8 +69,23 @@ class PostsControllerTest < ActionController::TestCase
     assert_response :success
 
     a_posts = assigns(:posts)
+    assert_not_nil a_posts
     a_posts.each do |p|
       assert_operator p.content.length, :<=, MAX_POST_LENGTH, "#{p.id} content too long"
     end
   end
+
+
+  test 'post filtered by author' do
+    fix_author = authors(:john)
+    assert_not_nil fix_author, 'John Doe does not defined in fixtures'
+
+    get :index, author_id: fix_author.id 
+    assert_response :success
+
+    a_posts = assigns(:posts)
+    assert_not_nil a_posts
+    assert_equal  fix_author.posts.size, a_posts.all.size, 'Author posts not filtered'
+  end
+    
 end

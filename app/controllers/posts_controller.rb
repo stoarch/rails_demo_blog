@@ -7,7 +7,17 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.select("id, title, author_id, left(content,#{MAX_CONTENT_LENGTH}) as content, created_at").order( created_at: :desc ).all
+
+    res_posts = Post.select("id, title, author_id, left(content,#{MAX_CONTENT_LENGTH}) as content, created_at").order( created_at: :desc )
+
+    a_parms = get_params()
+
+    if( a_parms[:author_id] ) #filter posts by author
+      res_posts = res_posts.where(author_id: a_parms[:author_id])
+    end
+
+    @posts = res_posts.all
+
   end
 
   # GET /posts/1
@@ -73,5 +83,9 @@ class PostsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
       params.require(:post).permit(:title, :content, :author_id)
+    end
+
+    def get_params
+      params.permit(:author_id)
     end
 end
