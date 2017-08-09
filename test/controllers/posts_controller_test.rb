@@ -17,9 +17,15 @@ class PostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should redirect anonymous user to login' do
+    post :create, post: { author_id: @post.author_id, content: @post.content, title: @post.title }
+    assert_response :redirect
+    assert_match 'sign_in', response.body
+  end
+
   test "should create post" do
     sign_in users(:user_paul)
-    assert_difference('Post.count') do
+    assert_difference(->{Post.count}) do
       post :create, post: { author_id: @post.author_id, content: @post.content, title: @post.title }
     end
 
@@ -75,7 +81,7 @@ class PostsControllerTest < ActionController::TestCase
     end
   end
 
-  test 'post by author inacessible to another user' do
+  test 'post by author inacessible to anonymous' do
     fix_author = authors(:john)
     assert_not_nil fix_author, 'John Doe does not defined in fixtures'
 
@@ -83,7 +89,7 @@ class PostsControllerTest < ActionController::TestCase
 
     assert_response :forbidden
     assert_not_nil flash[:alert], 'Should not access to other author resources'
-    assert_equal 'Access denied to resources from another author', flash[:alert], 'Alert does not display valid info'
+    assert_equal 'Access denied', flash[:alert], 'Alert does not display valid info'
   end
 
   test 'post by author inacessible to another user' do

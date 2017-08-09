@@ -18,7 +18,7 @@ class PostsController < ApplicationController
       current_author_id = current_user&.author&.id
       parm_author_id = a_parms[:author_id].to_i
 
-      raise ApplicationController::NotAuthorized, 'Not authorised' if !user_signed_in?
+      raise ApplicationController::NotAuthorized, 'Access denied' if !user_signed_in?
       raise ApplicationController::NotAuthorized, "Access denied to resources from another author" if( current_author_id != parm_author_id )
       @author_id = parm_author_id 
       res_posts = res_posts.where(author_id: @author_id)
