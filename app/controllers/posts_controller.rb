@@ -12,8 +12,11 @@ class PostsController < ApplicationController
 
     a_parms = get_params()
 
+    @author_id = nil
+
     if( a_parms[:author_id] ) #filter posts by author
-      res_posts = res_posts.where(author_id: a_parms[:author_id])
+      @author_id = a_parms[:author_id]
+      res_posts = res_posts.where(author_id: @author_id)
     end
 
     @posts = res_posts.all
