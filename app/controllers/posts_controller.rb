@@ -15,7 +15,12 @@ class PostsController < ApplicationController
     @author_id = nil
 
     if( a_parms[:author_id] ) #filter posts by author
-      @author_id = a_parms[:author_id]
+      current_author_id = current_user&.author&.id
+      parm_author_id = a_parms[:author_id].to_i
+
+      raise ApplicationController::NotAuthorized, 'Not authorised' if !user_signed_in?
+      raise ApplicationController::NotAuthorized, "Access denied for #{current_user.author.full_name} to resources from #{Author.find_by(id: a_parms[:author_id]).full_name}" if( current_author_id != parm_author_id )
+      @author_id = parm_author_id 
       res_posts = res_posts.where(author_id: @author_id)
     end
 

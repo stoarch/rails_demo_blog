@@ -75,12 +75,27 @@ class PostsControllerTest < ActionController::TestCase
     end
   end
 
+  test 'post by author inacessible to another user' do
+    sign_in users(:user_paul)
 
-  test 'post filtered by author' do
     fix_author = authors(:john)
     assert_not_nil fix_author, 'John Doe does not defined in fixtures'
 
     get :index, author_id: fix_author.id 
+
+    assert_response :forbidden
+    assert_not_nil flash[:alert], 'Should not access to other author resources'
+    assert_equal "Access denied for #{authors(:paul).full_name} to resources from #{fix_author.full_name}", flash[:alert], 'Alert does not display valid info'
+  end
+
+  test 'post filtered by author' do
+    sign_in users(:user_john)
+
+    fix_author = authors(:john)
+    assert_not_nil fix_author, 'John Doe does not defined in fixtures'
+
+    get :index, author_id: fix_author.id 
+    assert_nil flash[:alert], 'Should access to self resources'
     assert_response :success
 
     a_posts = assigns(:posts)
