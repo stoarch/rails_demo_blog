@@ -76,6 +76,17 @@ class PostsControllerTest < ActionController::TestCase
   end
 
   test 'post by author inacessible to another user' do
+    fix_author = authors(:john)
+    assert_not_nil fix_author, 'John Doe does not defined in fixtures'
+
+    get :index, author_id: fix_author.id 
+
+    assert_response :forbidden
+    assert_not_nil flash[:alert], 'Should not access to other author resources'
+    assert_equal 'Access denied to resources from another author', flash[:alert], 'Alert does not display valid info'
+  end
+
+  test 'post by author inacessible to another user' do
     sign_in users(:user_paul)
 
     fix_author = authors(:john)
