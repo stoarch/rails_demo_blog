@@ -9,7 +9,7 @@ class PostsController < ApplicationController
   # GET /posts.json
   def index
 
-    res_posts = Post.select("id, title, author_id, left(content,#{MAX_CONTENT_LENGTH}) as content, created_at").order( created_at: :desc )
+    res_posts = Post.select("id, title, author_id, left(content,#{MAX_CONTENT_LENGTH}) as content, created_at, published").order( created_at: :desc ).published
 
     a_parms = get_params()
 
@@ -60,6 +60,9 @@ class PostsController < ApplicationController
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
+  rescue Exception => e
+    flash[:alert] = e.message
+    raise
   end
 
   # PATCH/PUT /posts/1
@@ -76,6 +79,9 @@ class PostsController < ApplicationController
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
+  rescue Exception => e
+    flash[:alert] = e.message
+    raise
   end
 
   # DELETE /posts/1
@@ -96,7 +102,7 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:title, :content, :author_id)
+      params.require(:post).permit(:title, :content, :author_id, :published)
     end
 
     def get_params

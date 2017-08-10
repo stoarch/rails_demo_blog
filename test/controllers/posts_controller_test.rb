@@ -9,6 +9,7 @@ class PostsControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_not_nil assigns(:posts)
+    assert assigns(:posts).all_published?, 'Should be published'
   end
 
   test "should get new" do
@@ -23,15 +24,47 @@ class PostsControllerTest < ActionController::TestCase
     assert_match 'sign_in', response.body
   end
 
-  test "should create post" do
+  test "should create and publish post" do
     sign_in users(:user_paul)
     assert_difference(->{Post.count}) do
-      post :create, post: { author_id: authors(:paul).id, content: @post.content, title: @post.title }
+      post :create, post: { 
+        author_id: authors(:paul).id, 
+        content: @post.content, 
+        title: @post.title, 
+        published: true 
+      }
     end
 
     assert_equal authors(:paul).id, assigns(:post).author_id, 'Author should be same as logged user'
 
     assert_redirected_to post_path(assigns(:post))
+
+    assert assigns(:post).published, 'Post should be published'
+
+    assert_includes Post.published, assigns(:post)
+  end
+
+  test "should create and unpublished post" do
+    sign_in users(:user_paul)
+    assert_difference(->{Post.count}) do
+      post :create, post: { 
+        author_id: authors(:paul).id, 
+        content: @post.content, 
+        title: @post.title, 
+        published: false 
+      }
+      assert_equal 'Post was successfully created.', flash[:notice], 'Should be message about post creation'
+      assert_nil flash[:alert], 'No errors should be here'
+      assert_equal [], assigns(:post).errors.full_messages, 'Data without errors should be here'
+    end
+
+    assert_equal authors(:paul).id, assigns(:post).author_id, 'Author should be same as logged user'
+
+    assert_redirected_to post_path(assigns(:post))
+
+    assert_not assigns(:post).published, 'Post should not be published'
+
+    assert_includes Post.unpublished, assigns(:post)
   end
 
   test "should show post" do
@@ -54,7 +87,9 @@ class PostsControllerTest < ActionController::TestCase
 
   test "should update post" do
     sign_in users(:user_paul)
-    patch :update, id: @post, post: { author_id: @post.author_id, content: @post.content, title: @post.title }
+    patch :update, id: @post, post: { author_id: @post.author_id, content: @post.content, title: @post.title, published: true }
+    assert_nil flash[:alert], 'No errors should be here'
+    assert_equal [], assigns(:post).errors.full_messages
     assert_redirected_to post_path(assigns(:post))
   end
 
@@ -134,7 +169,7 @@ class PostsControllerTest < ActionController::TestCase
 
     a_posts = assigns(:posts)
     assert_not_nil a_posts
-    assert_equal  fix_author.posts.size, a_posts.all.size, 'Author posts not filtered'
+    assert_equal  fix_author.posts.where(published: true).size, a_posts.all.size, 'Author posts not filtered'
   end
     
 end
