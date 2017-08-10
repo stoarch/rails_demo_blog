@@ -169,7 +169,7 @@ class PostsControllerTest < ActionController::TestCase
 
     a_posts = assigns(:posts)
     assert_not_nil a_posts
-    assert_equal  fix_author.posts.where(published: true).size, a_posts.all.size, 'Author posts not filtered'
+    assert_equal  fix_author.posts.size, a_posts.all.size, 'Author posts not filtered'
   end
     
 end

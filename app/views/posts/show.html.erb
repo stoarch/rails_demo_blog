@@ -4,6 +4,10 @@
   <b>Created at:</b>
   <%= @post.created_at.strftime("%d-%m-%Y %H:%M") %>
 
+<% if user_signed_in? && current_user&.author.id == @post.author.id %>
+  <p><b>Published:</b> <%= @post.published %> </p>
+<% end %>
+
 <p>
   <strong>Title:</strong>
   <%= @post.title %>

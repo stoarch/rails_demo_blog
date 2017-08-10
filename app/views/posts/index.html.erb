@@ -17,6 +17,9 @@
         <td>
           <table>
             <tr>
+              <% if @author_id && user_signed_in? && current_user&.author.id == post.author.id %>
+                <td><b>Published:</b> <%= post.published %> </td>
+              <% end %>
               <td width="100px"><%= post.created_at.strftime("%d-%m-%Y %H:%M") %></td>
               <td width="80%"><b><%= post.title %></b></td>
               <td><i><%= post.author.full_name if post.author %></i></td>

@@ -9,7 +9,7 @@ class PostsController < ApplicationController
   # GET /posts.json
   def index
 
-    res_posts = Post.select("id, title, author_id, left(content,#{MAX_CONTENT_LENGTH}) as content, created_at, published").order( created_at: :desc ).published
+    res_posts = Post.select("id, title, author_id, left(content,#{MAX_CONTENT_LENGTH}) as content, created_at, published").order( created_at: :desc )
 
     a_parms = get_params()
 
@@ -22,6 +22,8 @@ class PostsController < ApplicationController
       raise ApplicationController::NotAuthorized, "Access denied to resources from another author" if( current_author_id != parm_author_id )
       @author_id = parm_author_id 
       res_posts = res_posts.where(author_id: @author_id)
+    else
+      res_posts = res_posts.published
     end
 
     @posts = res_posts.paginate(page: params[:page], per_page: POSTS_PER_PAGE)
@@ -36,6 +38,7 @@ class PostsController < ApplicationController
   # GET /posts/new
   def new
     @post = Post.new
+    @post.published = true
   end
 
   # GET /posts/1/edit
