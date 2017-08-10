@@ -42,8 +42,13 @@ class CommentsControllerTest < ActionController::TestCase
 
   test "should update comment" do
     sign_in users(:user_paul)
-    patch :update, id: @comment, comment: { author_id: @comment.author_id, content: @comment.content, post_id: @comment.post_id }
-    assert_redirected_to comment_path(assigns(:comment))
+    patch :update, id: @comment, comment: { id: @comment.id, author_id: @comment.author_id, content: @comment.content, post_id: @comment.post_id }
+
+    assert_equal [], assigns(:comment).errors.full_messages 
+    assert_nil flash[:alert], 'No errors on update expected'
+    assert_equal 'Comment was successfully updated.', flash[:notice]
+
+    assert_redirected_to post_comment_path(@comment.post_id, @comment.id)
   end
 
   test "should destroy comment" do

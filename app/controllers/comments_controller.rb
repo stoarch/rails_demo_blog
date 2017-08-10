@@ -48,11 +48,11 @@ class CommentsController < ApplicationController
   # PATCH/PUT /comments/1
   # PATCH/PUT /comments/1.json
   def update
-    post = Post.find(params[:post_id])
-    @comment = post.comments.find(params[:id])
+    post = Post.find(update_params[:post_id])
+    @comment = post.comments.find(update_params[:id])
 
     respond_to do |format|
-      if @comment.update_attributes(comment_params[:comment])
+      if @comment.update_attributes(update_params)
         format.html { redirect_to [@comment.post, @comment], notice: 'Comment was successfully updated.' }
         format.json { render :show, status: :ok, location: @comment }
       else
@@ -60,6 +60,9 @@ class CommentsController < ApplicationController
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
+  rescue Exception => e
+    flash[:alert] = e.message
+    raise
   end
 
   # DELETE /comments/1
@@ -86,7 +89,7 @@ class CommentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:content, :author_id, :post_id)
+      params.require(:comment).permit(:id, :content, :author_id, :post_id)
     end
 
     def index_params
@@ -94,6 +97,10 @@ class CommentsController < ApplicationController
     end
 
     def destroy_params
+      params.require(:comment).permit(:id, :content, :author_id, :post_id)
+    end
+
+    def update_params
       params.require(:comment).permit(:id, :content, :author_id, :post_id)
     end
 end
