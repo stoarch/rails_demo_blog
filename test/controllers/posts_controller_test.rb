@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PostsControllerTest < ActionController::TestCase
   setup do
-    @post = posts(:post_one)
+    @post = authors(:paul).posts[0] 
   end
 
   test "should get index" do
@@ -45,10 +45,25 @@ class PostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should warn when editing another author post' do
+    sign_in users(:user_paul)
+    get :edit, id: authors(:john).posts[0].id 
+    assert_equal 'Access denied', flash[:alert]
+    assert_response :forbidden
+  end
+
   test "should update post" do
     sign_in users(:user_paul)
     patch :update, id: @post, post: { author_id: @post.author_id, content: @post.content, title: @post.title }
     assert_redirected_to post_path(assigns(:post))
+  end
+
+  test 'should warn when updating another author post' do
+    sign_in users(:user_paul)
+    patch :update, id: authors(:john).posts[0].id, post: { author_id: @post.author_id, content: @post.content, title: @post.title }
+
+    assert_equal 'Access denied', flash[:alert]
+    assert_response :forbidden
   end
 
   test "should destroy post" do

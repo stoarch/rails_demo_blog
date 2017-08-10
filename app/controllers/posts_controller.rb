@@ -15,7 +15,6 @@ class PostsController < ApplicationController
     @author_id = nil
 
     if( a_parms[:author_id] ) #filter posts by author
-      current_author_id = current_user&.author&.id
       parm_author_id = a_parms[:author_id].to_i
 
       raise ApplicationController::NotAuthorized, 'Access denied' if !user_signed_in?
@@ -40,6 +39,7 @@ class PostsController < ApplicationController
 
   # GET /posts/1/edit
   def edit
+    check_access_to_author_data
   end
 
   # POST /posts
@@ -64,6 +64,8 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1
   # PATCH/PUT /posts/1.json
   def update
+    check_access_to_author_data
+
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
@@ -97,6 +99,23 @@ class PostsController < ApplicationController
     end
 
     def get_params
-      params.permit(:author_id)
+      params.permit(:id, :author_id)
     end
+
+    def current_author_id
+      current_user&.author&.id
+    end
+
+
+    def check_access_to_author_data
+      a_parms = get_params()
+      post = Post.find(a_parms[:id])
+      parm_author_id = post.author.id 
+
+      if( current_author_id != parm_author_id )
+        flash[:alert] = "Access denied"
+        raise ApplicationController::NotAuthorized, flash[:alert] 
+      end
+    end
+
 end
