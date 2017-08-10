@@ -1,4 +1,7 @@
-<p>Error:</p>
+<p>Error: <%= response.status %> : <%= response.body %></p>
 <% if flash[:alert] %>
   <%= flash[:alert] %>
+<% end %>
+<% if flash[:notice] %>
+  <%= flash[:notice] %>
 <% end %>

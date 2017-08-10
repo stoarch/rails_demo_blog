@@ -13,6 +13,11 @@ class ApplicationController < ActionController::Base
     render_error_page(status: 403, text: 'Forbidden.' )
   end
 
+  def current_author_id
+    current_user&.author&.id
+  end
+
+
   private
 
   def render_error_page(status:, text:, template: 'errors/routing')

@@ -18,6 +18,7 @@ class CommentsControllerTest < ActionController::TestCase
     assert_nil flash[:alert], 'No errors should be created'
     assert_not_nil assigns(:comment)
     assert_equal [], assigns(:comment).errors.full_messages
+    assert_equal @comment.author_id, assigns(:comment).author_id
     assert_response :success
   end
 
@@ -27,7 +28,7 @@ class CommentsControllerTest < ActionController::TestCase
       post :create, comment: { author_id: @comment.author_id, content: @comment.content, post_id: @comment.post_id }
     end
 
-    assert_redirected_to comment_path(assigns(:comment))
+    assert_redirected_to post_path(assigns(:comment).post_id)
   end
 
   test "should show comment" do
@@ -49,7 +50,7 @@ class CommentsControllerTest < ActionController::TestCase
     assert_nil flash[:alert], 'No errors on update expected'
     assert_equal 'Comment was successfully updated.', flash[:notice]
 
-    assert_redirected_to post_comment_path(@comment.post_id, @comment.id)
+    assert_redirected_to post_path(@comment.post_id)
   end
 
   test "should destroy comment" do

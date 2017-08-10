@@ -7,4 +7,10 @@ class Post < ActiveRecord::Base
   validates :author_id, presence: true
 
   accepts_nested_attributes_for :comments, allow_destroy: true, reject_if: :all_blank
+
+  SHORT_CONTENT_LENGTH = 100
+
+  def short_content
+    content[0..SHORT_CONTENT_LENGTH]
+  end
 end
