@@ -26,8 +26,10 @@ class PostsControllerTest < ActionController::TestCase
   test "should create post" do
     sign_in users(:user_paul)
     assert_difference(->{Post.count}) do
-      post :create, post: { author_id: @post.author_id, content: @post.content, title: @post.title }
+      post :create, post: { author_id: authors(:paul).id, content: @post.content, title: @post.title }
     end
+
+    assert_equal authors(:paul).id, assigns(:post).author_id, 'Author should be same as logged user'
 
     assert_redirected_to post_path(assigns(:post))
   end

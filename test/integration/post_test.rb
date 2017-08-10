@@ -11,7 +11,7 @@ class PostFlowsTest < ActionDispatch::IntegrationTest
     get '/posts/new'
     assert_response :success
     post_via_redirect '/posts', post: {title: post_one.title, content: post_one.content, author: post_one.author}
-    assert_match %r|/posts/\d+|, path
+    assert_match %r|/posts|, path
     assert_equal 'Post was successfully created.', flash[:notice]
     https!(false)
     get '/posts'
