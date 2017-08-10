@@ -2,20 +2,20 @@
 
 <h1>Listing Posts</h1>
 <% if user_signed_in? %>
-  <%= link_to 'New Post', new_post_path %>
+  <%= link_to 'New Post', new_post_path, class: "btn btn-primary btn-small" %>
   <% if @author_id %>
-    <%= link_to 'All posts', posts_path %>
+    <%= link_to 'All posts', posts_path, class: "btn btn-small" %>
   <% else %>
-    <%= link_to 'My Posts', author_posts_path(current_user.author) %>
+    <%= link_to 'My Posts', author_posts_path(current_user.author), class: "btn btn-small" %>
   <% end %>
 <% end %>
 
-<table>
+<table class="table">
   <tbody>
     <% @posts.each do |post| %>
       <tr>
         <td>
-          <table>
+          <table class="table">
             <tr>
               <% if @author_id && user_signed_in? && current_user&.author.id == post.author.id %>
                 <td><b>Published:</b> <%= post.published %> </td>
@@ -26,11 +26,11 @@
               <td>
                 <table>
                   <tr>
-                    <td><%= link_to 'Show', post %></td>
+                    <td><%= link_to 'Show', post, class: "btn btn-primary btn-small" %></td>
                     <% if user_signed_in? %>
                       <% if current_user.id == post&.author&.user&.id %>
-                        <td><%= link_to 'Edit', edit_post_path(post) %></td>
-                        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                        <td><%= link_to 'Edit', edit_post_path(post), class: "btn btn-success btn-small" %></td>
+                        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-small" %></td>
                       <% end %>
                     <% end %>
                   </tr>

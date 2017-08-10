@@ -56,7 +56,7 @@ class CommentsControllerTest < ActionController::TestCase
   test "should destroy comment" do
     sign_in users(:user_paul)
     assert_difference('Comment.count', -1) do
-      delete :destroy, id: @comment, comment: { id: @comment.id, author_id: @comment.author_id, content: @comment.content, post_id: @comment.post_id }
+      delete :destroy,  id: @comment.id, author_id: @comment.author_id, content: @comment.content, post_id: @comment.post_id 
 
       assert_equal [], assigns(:comment).errors.full_messages 
       assert_nil flash[:alert], 'No errors on destroy expected'
@@ -64,22 +64,6 @@ class CommentsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to post_comments_path(@comment.post_id)
-  end
-
-  test "should warn destroying without id" do
-    sign_in users(:user_paul)
-
-    delete :destroy, id:@comment, comment: { author_id: @comment.author_id, content: @comment.content, post_id: @comment.post_id }
-
-    assert_equal 'Couldn\'t find Comment without an ID', flash[:alert]
-  end
-
-  test "should throw ParameterMissiing when destroying without comment" do
-    sign_in users(:user_paul)
-
-    assert_raises( ActionController::ParameterMissing ) do
-      delete :destroy, id:@comment
-    end 
   end
 
 end

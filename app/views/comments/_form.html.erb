@@ -14,15 +14,15 @@
   <%= f.hidden_field :author_id %>
   <%= f.hidden_field :post_id %>
 
-  <div class="field">
+  <div class="form-group">
     <%= f.label :content %><br>
-    <%= f.text_area :content %>
+    <%= f.text_area :content, class: "form-control" %>
   </div>
-  <div class="field">
+  <div class="form-group">
     <%= f.label :author_id %><br>
     <%= @comment.author.full_name %>
   </div>
-  <div class="field">
+  <div class="form-group">
     <%= f.label :post_id %><br>
     <%= @comment.post.title %>
   </div>

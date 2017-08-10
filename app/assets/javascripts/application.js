@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+//= require twitter/bootstrap
 //
 $(function(){           
   if (!Modernizr.inputtypes.date) {

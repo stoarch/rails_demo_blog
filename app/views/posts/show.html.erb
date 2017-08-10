@@ -1,5 +1,6 @@
 <p id="notice"><%= notice %></p>
 
+<div class="panel">
 <p>
   <b>Created at:</b>
   <%= @post.created_at.strftime("%d-%m-%Y %H:%M") %>
@@ -22,18 +23,19 @@
   <strong>Content:</strong>
   <%= @post.content %>
 </p>
+</div>
 
 
-<%= link_to 'Edit', edit_post_path(@post) %> |
-<%= link_to 'Back', posts_path %>
+<%= link_to 'Edit', edit_post_path(@post), class: "btn btn-primary btn-small" %> |
+<%= link_to 'Back', posts_path, class: "btn btn-small" %>
 
 <hr>
 <p><b>Comments:</b>
   <% if user_signed_in? %>
-    <%= link_to 'New Comment', new_post_comment_path(@post) %>
+    <%= link_to 'New Comment', new_post_comment_path(@post), class: "btn btn-primary btn-small" %>
   <% end %>
 </p>
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Created at</th>
@@ -56,8 +58,8 @@
         <td><%= c.created_at.strftime("%d-%m-%Y %H:%M") %></td>
         <td><%= c.author.full_name %></td>
         <% if user_signed_in? && current_user&.author.id == c.author.id && c.fresh %>
-          <td> <%= link_to 'Edit', edit_post_comment_path(@post,c) %></td>
-          <td> <%= link_to 'Destroy', [@post,c], confirm: 'Are you sure?', method: :delete %></td>
+          <td> <%= link_to 'Edit', edit_post_comment_path(@post,c), class: "btn btn-primary btn-small" %></td>
+          <td> <%= link_to 'Destroy', [@post,c], confirm: 'Are you sure?', method: :delete, class: "btn btn-danger btn-small" %></td>
         <% end %>
       </tr>
       <tr>

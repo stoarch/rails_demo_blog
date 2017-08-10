@@ -1,5 +1,9 @@
-<h1>New Comment</h1>
+<div class="panel panel-primary" id="panels">
+  <div class="panel-heading">
+    <h3>New Comment</h3>
+  </div>
 
-<%= render 'form' %>
+  <%= render 'form' %>
+</div>
 
-<%= link_to 'Back', comments_path %>
+<%= link_to 'Back', post_path(@comment.post), class: "btn" %>

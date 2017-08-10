@@ -105,7 +105,7 @@ class CommentsController < ApplicationController
     end
 
     def destroy_params
-      params.require(:comment).permit(:id, :content, :author_id, :post_id)
+      params.permit(:id, :content, :author_id, :post_id)
     end
 
     def update_params
