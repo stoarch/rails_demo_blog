@@ -102,10 +102,6 @@ class PostsController < ApplicationController
       params.permit(:id, :author_id)
     end
 
-    def current_author_id
-      current_user&.author&.id
-    end
-
 
     def check_access_to_author_data
       a_parms = get_params()

@@ -51,7 +51,7 @@
       <tr>
         <td><%= c.created_at.strftime("%d-%m-%Y %H:%M") %></td>
         <td><%= c.author.full_name %></td>
-        <% if user_signed_in? && current_user&.author.id == c.author.id %>
+        <% if user_signed_in? && current_user&.author.id == c.author.id && c.fresh %>
           <td> <%= link_to 'Edit', edit_post_comment_path(@post,c) %></td>
           <td> <%= link_to 'Destroy', [@post,c], confirm: 'Are you sure?', method: :delete %></td>
         <% end %>

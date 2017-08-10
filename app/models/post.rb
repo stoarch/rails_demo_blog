@@ -13,4 +13,6 @@ class Post < ActiveRecord::Base
   def short_content
     content[0..SHORT_CONTENT_LENGTH]
   end
+
+  self.per_page = 5
 end
