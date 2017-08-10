@@ -53,6 +53,7 @@ class PostsController < ApplicationController
 
     @author_id = current_user&.author&.id
     @post.author_id = @author_id
+    @post.tag_list = post_params[:tag_list]
 
     respond_to do |format|
       if @post.save
@@ -72,6 +73,8 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1.json
   def update
     check_access_to_author_data
+
+    @post.tag_list = post_params[:tag_list]
 
     respond_to do |format|
       if @post.update(post_params)
@@ -105,7 +108,7 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:title, :content, :author_id, :published)
+      params.require(:post).permit(:title, :content, :author_id, :published, :tag_list)
     end
 
     def get_params

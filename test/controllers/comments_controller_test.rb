@@ -63,7 +63,7 @@ class CommentsControllerTest < ActionController::TestCase
       assert_equal 'Comment was successfully destroyed.', flash[:notice]
     end
 
-    assert_redirected_to post_comments_path(@comment.post_id)
+    assert_redirected_to post_path(@comment.post_id)
   end
 
 end

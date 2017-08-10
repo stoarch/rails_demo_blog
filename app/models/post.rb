@@ -1,4 +1,6 @@
 class Post < ActiveRecord::Base
+  acts_as_taggable 
+
   has_many :comments
   belongs_to :author
 
@@ -34,5 +36,9 @@ class Post < ActiveRecord::Base
   def default_values
     self.published ||= false 
     true
+  end
+
+  def tags_list
+    tags.map{|t| t.name }.join(',')
   end
 end
