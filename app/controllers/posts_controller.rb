@@ -26,8 +26,8 @@ class PostsController < ApplicationController
       res_posts = res_posts.published
     end
 
-    @posts = res_posts.paginate(page: params[:page], per_page: POSTS_PER_PAGE)
 
+    @posts = res_posts.paginate(page: params[:page], per_page: POSTS_PER_PAGE)
   end
 
   # GET /posts/1
@@ -99,6 +99,25 @@ class PostsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def tag_cloud
+    @tags = Post.tag_cloud
+  end
+
+  def tag
+    a_parms = get_params()
+
+    res_posts = Post.select("id, title, author_id, left(content,#{MAX_CONTENT_LENGTH}) as content, created_at, published").order( created_at: :desc )
+
+    @author_id = nil
+
+    res_posts = res_posts.tagged_with(a_parms[:tag], any: true)
+    res_posts = res_posts.published
+
+    @posts = res_posts.paginate(page: params[:page], per_page: POSTS_PER_PAGE)
+
+    render action: 'index'
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -112,7 +131,7 @@ class PostsController < ApplicationController
     end
 
     def get_params
-      params.permit(:id, :author_id)
+      params.permit(:id, :author_id, :tag)
     end
 
 

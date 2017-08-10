@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root 'posts#index'
 
   resources :comments
+  get 'posts/tag' => 'posts#tag'
 
   resources :posts do
     resources :comments

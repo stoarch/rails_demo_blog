@@ -29,6 +29,10 @@ class Post < ActiveRecord::Base
     def all_published?
       where(nil).all?{|p| p.published }
     end
+
+    def tag_cloud
+      Post.tag_counts_on(:tags)
+    end
   end
 
   before_save :default_values
@@ -41,4 +45,5 @@ class Post < ActiveRecord::Base
   def tags_list
     tags.map{|t| t.name }.join(',')
   end
+
 end
