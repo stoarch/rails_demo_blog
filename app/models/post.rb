@@ -14,5 +14,4 @@ class Post < ActiveRecord::Base
     content[0..SHORT_CONTENT_LENGTH]
   end
 
-  self.per_page = 5
 end

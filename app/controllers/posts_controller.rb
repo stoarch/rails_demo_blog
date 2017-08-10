@@ -3,6 +3,7 @@ class PostsController < ApplicationController
   before_filter :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
 
   MAX_CONTENT_LENGTH = 300 
+  POSTS_PER_PAGE = 5
 
   # GET /posts
   # GET /posts.json
@@ -23,7 +24,7 @@ class PostsController < ApplicationController
       res_posts = res_posts.where(author_id: @author_id)
     end
 
-    @posts = res_posts.all
+    @posts = res_posts.paginate(page: params[:page], per_page: POSTS_PER_PAGE)
 
   end
 
