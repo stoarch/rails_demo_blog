@@ -1,11 +1,12 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  content: MyString
-  author_id: 1
-  post_id: 1
+paul_comment_one:
+  content: Demo content of comment one 
+  author: paul
+  post: post_seven
+  
 
-two:
-  content: MyString
-  author_id: 1
-  post_id: 1
+paul_comment_two:
+  content: Demo content of comment two 
+  author: paul
+  post: post_eight

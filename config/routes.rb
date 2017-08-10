@@ -3,7 +3,10 @@ Rails.application.routes.draw do
   root 'posts#index'
 
   resources :comments
-  resources :posts
+
+  resources :posts do
+    resources :comments
+  end
 
   resources :authors do
     resources :posts do
