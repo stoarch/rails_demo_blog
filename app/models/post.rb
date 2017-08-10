@@ -5,4 +5,6 @@ class Post < ActiveRecord::Base
   validates :title, presence: true, length: {minimum: 5, maximum: 50}
   validates :content, presence: true, length: {minimum: 50}
   validates :author_id, presence: true
+
+  accepts_nested_attributes_for :comments, allow_destroy: true, reject_if: :all_blank
 end

@@ -14,7 +14,8 @@ class CommentsControllerTest < ActionController::TestCase
 
   test "should get new" do
     sign_in users(:user_paul)
-    get :new, comment: { post_id: @comment.post_id }
+    get :new,  post_id: @comment.post_id 
+    assert_nil flash[:alert], 'No errors should be created'
     assert_not_nil assigns(:comment)
     assert_equal [], assigns(:comment).errors.full_messages
     assert_response :success

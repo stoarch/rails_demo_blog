@@ -20,8 +20,11 @@ class CommentsController < ApplicationController
 
   # GET /comments/new
   def new
-    post = Post.find(comment_params[:post_id])
+    post = Post.find(index_params[:post_id])
     @comment = post.comments.build
+  rescue Exception => e
+    flash[:alert] = e.message
+    raise
   end
 
   # GET /comments/1/edit
