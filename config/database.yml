@@ -81,7 +81,8 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
   database: blog_production
-  username: blog
+  username: stoarch 
   password: <%= ENV['BLOG_DATABASE_PASSWORD'] %>
