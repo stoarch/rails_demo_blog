@@ -17,11 +17,13 @@ author_templates = [
   {full_name: 'Paul Smith', birth_date: Date.new(1988,5,1), email: 'paul@example.com', password: DEFAULT_PASSWORD }
 ]
 
+
 authors = []
 
 author_templates.each_with_index do |at, i|
-  author = Author.where(full_name: at[:full_name]).first_or_create(at)
+  author = Author.where(full_name: at[:full_name]).first_or_create(full_name: at[:full_name], birth_date: at[:birth_date])
   authors << author 
+
   if author.user.nil?
     user = User.where(email: at[:email]).first_or_create(email: at[:email], password: at[:password])
     author.user = user

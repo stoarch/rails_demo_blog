@@ -6,7 +6,7 @@
   <% if @author_id %>
     <%= link_to 'All posts', posts_path, class: "btn btn-small" %>
   <% else %>
-    <%= link_to 'My Posts', author_posts_path(current_user.author), class: "btn btn-small" %>
+    <%= link_to 'My Posts', author_posts_path(current_user.author), class: "btn btn-small" if current_user.author %>
   <% end %>
 <% end %>
 
