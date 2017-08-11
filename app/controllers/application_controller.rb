@@ -17,6 +17,10 @@ class ApplicationController < ActionController::Base
     current_user&.author&.id
   end
 
+  def after_sign_up_path_for(resource)
+    new_author_path(resource)
+  end
+
 
   private
 

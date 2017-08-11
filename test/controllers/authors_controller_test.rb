@@ -21,7 +21,7 @@ class AuthorsControllerTest < ActionController::TestCase
       post :create, author: { birth_date: @author.birth_date, full_name: @author.full_name, user_id: @author.user_id }
     end
 
-    assert_redirected_to author_path(assigns(:author))
+    assert_redirected_to posts_path 
   end
 
   test "should show author" do
@@ -36,7 +36,7 @@ class AuthorsControllerTest < ActionController::TestCase
 
   test "should update author" do
     patch :update, id: @author, author: { birth_date: @author.birth_date, full_name: @author.full_name, user_id: @author.user_id }
-    assert_redirected_to author_path(assigns(:author))
+    assert_redirected_to posts_path
   end
 
   test "should destroy author" do
